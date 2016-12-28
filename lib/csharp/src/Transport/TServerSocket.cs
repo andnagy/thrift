@@ -151,6 +151,10 @@ namespace Thrift.Transport
                     throw;
                 }
             }
+            catch (SocketException ex) when (ex.SocketErrorCode.Equals(SocketError.Interrupted))
+            {
+                throw new TTransportException(TTransportException.ExceptionType.Interrupted, ex.ToString());
+            }
             catch (Exception ex)
             {
                 throw new TTransportException(ex.ToString());
